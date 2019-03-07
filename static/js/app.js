@@ -7,16 +7,6 @@
 // * Use a date form in your HTML document and write JavaScript code that will listen for events and search 
 //   through the `date/time` column to find rows that match user input.
 
-// ### Level 2: Multiple Search Categories (Optional)
-// * Complete all of Level 1 criteria.
-// * Using multiple `input` tags and/or select dropdowns, write JavaScript code so the user can to set multiple filters &
-//   search for UFO sightings using the following criteria based on the table columns:
-//   1. `date/time`
-//   2. `city`
-//   3. `state`
-//   4. `country`
-//   5. `shape`
-
 /**
  * Helper function to select UFO data
  * Returns an array of values
@@ -39,8 +29,6 @@ function unpack(rows, index) {
 // from data.js
 var tableData = data;
 
-
-
 // Submit Button handler
 function handleSubmit() {
 	d3.event.preventDefault(); // Prevent the page from refreshing
@@ -52,10 +40,11 @@ function handleSubmit() {
 }
 
 function buildTable(input_data) {
-	var table = d3.select("#ufo-table");
+ // d3.select("#ufo-table").select("tbody").
+        var table = d3.select("#ufo-table");
+       // table = table.empty()
 	var tbody = table.select("tbody");
         var trow = '';
-
         // columns needed: datetime, city, state, country, shape, durationMinutes, comments; 
         var datetime = unpack(input_data, 'datetime');
         var city = unpack(input_data, 'city');
@@ -64,7 +53,7 @@ function buildTable(input_data) {
         var shape = unpack(input_data, 'shape');
         var durationMinutes = unpack(input_data, 'durationMinutes');
         var comments = unpack(input_data, 'comments');
-
+        d3.select('#ufo-table').empty
 	for (var i = 0; i < input_data.length; i++) {
 		trow = tbody.append("tr");
 		trow.append("td").text(datetime[i]);
@@ -73,10 +62,20 @@ function buildTable(input_data) {
 		trow.append("td").text(country[i]);
                 trow.append("td").text(shape[i]);
                 trow.append("td").text(durationMinutes[i]);
-		trow.append("td").text(comments[i]);
-	}
-};
+                trow.append("td").text(comments[i]);
+                }
+       };
 
 buildTable(tableData);
 // Add event listener for submit button
 d3.select("#date-btn").on("click", handleSubmit);
+
+// ### Level 2: Multiple Search Categories (Optional)
+// * Complete all of Level 1 criteria.
+// * Using multiple `input` tags and/or select dropdowns, write JavaScript code so the user can to set multiple filters &
+//   search for UFO sightings using the following criteria based on the table columns:
+//   1. `date/time`
+//   2. `city`
+//   3. `state`
+//   4. `country`
+//   5. `shape`
