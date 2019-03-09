@@ -26,26 +26,20 @@ function unpack(rows, index) {
 		return row[index];
 	});}
 
-// from data.js
+// from data
 var tableData = data;
 
-// Submit Button handler
-function handleSubmit() {
+function handleSubmit() {               // date entered by user
 	d3.event.preventDefault(); // Prevent the page from refreshing
         var date_input = d3.select("#datetime").node().value; // Select the input value from the form
-        console.log("Hello: ", date_input); // for checking; 
+        //console.log("Hello: ", date_input); // for checking; 
         //d3.select("#filterdate-btn").node().value = ""; // clear the input value
-        date_data = tableData.filter(tableData => tableData.datetime == 'date_input')
-	buildTable(date_data); // Build the plot with the new date selected; 
-}
+        date_data = tableData.filter((d,i)=>d.datetime===date_input)
+ 	buildTable(date_data); // Build the plot with the new date selected; 
+                        }               // dataset filtered by date & passed ⟶ buildTable(filtered_dates)
 
-function buildTable(input_data) {
- // d3.select("#ufo-table").select("tbody").
-        var table = d3.select("#ufo-table");
-       // table = table.empty()
-	var tbody = table.select("tbody");
-        var trow = '';
-        // columns needed: datetime, city, state, country, shape, durationMinutes, comments; 
+function buildTable(input_data) {       // columns needed: datetime, city, state, country, shape, durationMinutes, comments; 
+ 	var tbody = d3.select("#ufo-table").select("tbody");
         var datetime = unpack(input_data, 'datetime');
         var city = unpack(input_data, 'city');
         var state = unpack(input_data, 'state');
@@ -53,7 +47,7 @@ function buildTable(input_data) {
         var shape = unpack(input_data, 'shape');
         var durationMinutes = unpack(input_data, 'durationMinutes');
         var comments = unpack(input_data, 'comments');
-        d3.select('#ufo-table').empty
+        d3.select("#ufo-table").select("tbody").selectAll('tr').remove() //clear table
 	for (var i = 0; i < input_data.length; i++) {
 		trow = tbody.append("tr");
 		trow.append("td").text(datetime[i]);
@@ -64,11 +58,12 @@ function buildTable(input_data) {
                 trow.append("td").text(durationMinutes[i]);
                 trow.append("td").text(comments[i]);
                 }
-       };
+                                };      // clear existing table & builds new one w/ passed data
 
 buildTable(tableData);
-// Add event listener for submit button
-d3.select("#date-btn").on("click", handleSubmit);
+
+d3.select("#date-btn")
+        .on("click", handleSubmit);     // Add event listener for submit button
 
 // ### Level 2: Multiple Search Categories (Optional)
 // * Complete all of Level 1 criteria.
@@ -79,3 +74,32 @@ d3.select("#date-btn").on("click", handleSubmit);
 //   3. `state`
 //   4. `country`
 //   5. `shape`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//d3.selectAll("tr").filter(function(datum, index) { return index & 1; });
+// filter returns a new selection of elements that evaluated to true; can be returned blank
+// filter by d3 selector 
+// filter by function ⟶ evaluated for entire selection in order: ⟶ datum(d) ⟶ index(i) ⟶ selected_group_of_nodes
+// this == current nodes[i]
+
+// d3.selectAll("tr").filter((datum, index)=>datum.datetime='1/1/2010')
+
+
+// d3.select('#ufo-table').select('tbody').selectAll('tr').select('td')
